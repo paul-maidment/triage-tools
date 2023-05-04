@@ -1,0 +1,9 @@
+build-container-image: triage-tools
+env_file:
+ - skipper.env
+make:
+  makefile: Makefile
+volumes:
+  - $HOME/triage-tools-tickets:$HOME/triage-tools-tickets
+env:
+  REGISTRY_AUTH_FILE: /run/user/0/containers/auth.json

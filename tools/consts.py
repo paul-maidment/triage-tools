@@ -1,0 +1,12 @@
+"""Constants that are common to all triage tools."""
+JIRA_SERVER = "https://issues.redhat.com"
+TRIAGE_TICKET_SEARCH_PROJECT = "AITRIAGE"
+TRIAGE_TICKET_SEARCH_COMPONENT = "Cloud-Triage"
+TRIAGE_TICKET_SEARCH_DEFAULT_DAYS = 31
+
+__all__ = [ \
+    "JIRA_SERVER", \
+    "TRIAGE_TICKET_SEARCH_PROJECT", \
+    "TRIAGE_TICKET_SEARCH_COMPONENT", \
+    "TRIAGE_TICKET_SEARCH_DEFAULT_DAYS" \
+]

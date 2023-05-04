@@ -1,0 +1,24 @@
+FROM quay.io/assisted-installer-ops/base-python:3.11.0
+
+RUN dnf install -y \
+    jq \
+    gcc \
+    git \
+    make \
+    skopeo \
+    libffi-devel \
+        && dnf clean all
+
+RUN pip3 install pip --upgrade
+
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+COPY dev-requirements.txt ./
+RUN pip install -r dev-requirements.txt
+
+WORKDIR /home/triage-tools
+COPY . .
+
+# PBR version is needed to allow us to .dockerignore the heavy .git directory
+RUN PBR_VERSION=9.9.9 pip install .

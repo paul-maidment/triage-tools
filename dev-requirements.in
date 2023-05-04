@@ -1,0 +1,7 @@
+flake8
+pylint>=2.16.0  # support for Python 3.11
+autopep8
+ipdb
+pip-tools
+black>=23.1.0
+isort>=5.12.0
