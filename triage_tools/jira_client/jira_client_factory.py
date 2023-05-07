@@ -2,7 +2,7 @@
 # pylint: disable=too-few-public-methods
 import jira
 
-from tools import consts
+from triage_tools import consts
 class JiraClientFactory:
     """Jira client factory class."""
     @staticmethod

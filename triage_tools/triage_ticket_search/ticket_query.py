@@ -1,9 +1,12 @@
 """TicketQuery module"""
 import logging
+from triage_tools import consts
 
 class TicketQuery:
     """Represents a query to Jira for a triage ticket"""
-    def __init__(self, jira_client, project_filter, component_filter):
+    def __init__(self, jira_client, \
+        project_filter=consts.TRIAGE_TICKET_SEARCH_PROJECT, \
+        component_filter=consts.TRIAGE_TICKET_SEARCH_COMPONENT):
         """Constructor"""
         self.jira_client = jira_client
         self.logger = logging.getLogger(__name__)
@@ -45,6 +48,12 @@ class TicketQuery:
         self.queries += [f"text ~ \"{term}\""]
         return self
 
+    def jql_clause(self, clause:str) -> "TicketQuery":
+        """Add a raw JQL clause"""
+        self.queries += [clause]
+        return self
+
     def build(self) -> str:
         """Build the query string"""
+        print(f"{self.queries}")
         return "(" + " AND ".join(self.queries) + ") ORDER BY created DESC"

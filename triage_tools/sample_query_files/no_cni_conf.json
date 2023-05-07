@@ -1,0 +1,13 @@
+{
+    "query": {
+        "function": "fetch_all_recent_tickets",
+        "days": 2
+    },
+    "jira_query_items": [
+
+    ],
+    "logs_search_items": [
+        {"label": "MGMT-12345-indicator-1", "path_regex": "(.*)bootstrap(.*)journal\\.log", "content_regex": "(.*)No CNI configuration file in /etc/kubernetes/cni/net.d/(.*)"},
+        {"label": "MGMT-12345-indicator-2", "path_regex": "(.*)does-not-exist", "content_regex": "unable to read client-cert /var/lib/kubelet/pki/kubelet-client-current.pem"}
+    ]
+}

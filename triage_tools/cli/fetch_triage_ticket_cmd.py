@@ -1,10 +1,11 @@
 """Module for command line utility to fetch a single triage ticket"""
 import argparse
 import os
-from jira_client import JiraClientFactory
-from triage_ticket_search import LogDirectoryDownloader
-from triage_ticket_search.ticket_fetcher import TicketFetcher
-from triage_ticket_search.ticket_parser import TicketParser
+from triage_tools.jira_client.jira_client_factory import JiraClientFactory
+from triage_tools.triage_ticket_search import LogDirectoryDownloader
+from triage_tools.triage_ticket_search.ticket_fetcher import TicketFetcher
+from triage_tools.triage_ticket_search.ticket_parser import TicketParser
+from triage_tools.triage_ticket_search.archive_extractor import ArchiveExtractor
 
 class FetchTriageTicketCmd:
     """Responsible for fetching a single ticket for a triage issue"""
@@ -18,7 +19,8 @@ class FetchTriageTicketCmd:
         """This runs the command"""
         self.process_arguments()
         client = JiraClientFactory.create(self.args.jira_access_token)
-        log_directory_downloader = LogDirectoryDownloader()
+        archive_extractor = ArchiveExtractor()
+        log_directory_downloader = LogDirectoryDownloader(archive_extractor)
         ticket_parser = TicketParser(log_directory_downloader)
         ticket_fetcher = TicketFetcher(client, ticket_parser)
         ticket_fetcher.fetch_single_ticket_by_key(\

@@ -2,7 +2,8 @@
 # pylint: disable=too-few-public-methods
 import argparse
 import logging
-from fetch_triage_ticket_cmd import FetchTriageTicketCmd
+from triage_tools.cli.fetch_triage_ticket_cmd import FetchTriageTicketCmd
+from triage_tools.cli.fetch_all_recent_tickets import FetchRecentTriageTicketsCmd
 # from jira_client import JiraClientFactory
 class App:
     """General launcher app for command line utilities"""
@@ -12,10 +13,13 @@ class App:
     def run(self):
         """The entry point of the cli"""
         print(f"App->run() {self.args}")
-        match self.args.function:
-            case "fetch_triage_ticket":
-                cmd = FetchTriageTicketCmd()
-                cmd.run()
+        
+        if self.args.function == "fetch_triage_ticket":
+            cmd = FetchTriageTicketCmd()
+            cmd.run()
+        elif self.args.function == "fetch_all_recent_tickets":
+            cmd = FetchRecentTriageTicketsCmd()
+            cmd.run()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(add_help=False)

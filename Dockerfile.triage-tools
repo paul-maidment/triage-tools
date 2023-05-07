@@ -22,3 +22,6 @@ COPY . .
 
 # PBR version is needed to allow us to .dockerignore the heavy .git directory
 RUN PBR_VERSION=9.9.9 pip install .
+
+# Install OMG so that we can do must-gather analysis
+RUN pip install o-must-gather

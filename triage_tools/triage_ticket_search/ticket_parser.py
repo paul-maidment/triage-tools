@@ -18,9 +18,8 @@ class TicketParser:
             return None
         triage_ticket = TriageTicket(jira_issue)
         triage_ticket = self.parse_logs_url(triage_ticket)
-        triage_ticket.log_files = \
-            self.log_directory_downloader.download(triage_ticket.logs_url, \
-                os.path.join(os.path.expanduser('~'), "triage-tools-tickets"), triage_ticket.key)
+        self.log_directory_downloader.download(triage_ticket.logs_url, \
+            os.path.join(os.path.expanduser('~'), "triage-tools-tickets"), triage_ticket.key)
         print(f"Parsing done for {jira_issue.key}...")
         return triage_ticket
 
