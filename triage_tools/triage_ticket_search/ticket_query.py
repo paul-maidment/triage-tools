@@ -50,7 +50,7 @@ class TicketQuery:
 
     def jql_clause(self, clause:str) -> "TicketQuery":
         """Add a raw JQL clause"""
-        self.queries += [clause]
+        self.queries += [f"{clause}"]
         return self
 
     def build(self) -> str:

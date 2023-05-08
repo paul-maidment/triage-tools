@@ -1,13 +1,13 @@
 """Module for command line utility to fetch a single triage ticket"""
 import argparse
 import os
-from triage_tools.jira_client.jira_client_factory import JiraClientFactory
-from triage_tools.triage_ticket_search import LogDirectoryDownloader
-from triage_tools.triage_ticket_search.ticket_fetcher import TicketFetcher
-from triage_tools.triage_ticket_search.ticket_parser import TicketParser
-from triage_tools.triage_ticket_search.archive_extractor import ArchiveExtractor
+from triage_tools.jira_client import JiraClientFactory
+from triage_tools.triage_ticket_search import TicketFetcher
+from triage_tools.triage_ticket_search import TicketParser
+from workflow_data import WorkflowData
+from triage_tools.triage_ticket_search import JiraAttachmentDownloader
 
-class FetchTriageTicketCmd:
+class FetchById:
     """Responsible for fetching a single ticket for a triage issue"""
 
     def __init__(self):
@@ -15,16 +15,18 @@ class FetchTriageTicketCmd:
         self.args = []
         self.unknown_args = []
 
-    def run(self):
+    def run(self, workflow_data:"WorkflowData") -> "WorkflowData":
         """This runs the command"""
-        self.process_arguments()
+        self.workflow_data = workflow_data
         client = JiraClientFactory.create(self.args.jira_access_token)
-        archive_extractor = ArchiveExtractor()
-        log_directory_downloader = LogDirectoryDownloader(archive_extractor)
-        ticket_parser = TicketParser(log_directory_downloader)
+        jira_attachment_downloader = JiraAttachmentDownloader(client)
+        ticket_parser = TicketParser(jira_attachment_downloader)
         ticket_fetcher = TicketFetcher(client, ticket_parser)
         ticket_fetcher.fetch_single_ticket_by_key(\
             self.args.issue_id) # Ticket will now be stored in the download directory.
+        self.workflow_data["issue_ids"] = [self.args.issue_id]
+        # Once the ticket has been downloaded, return the workflow data with the ID processed
+        return self.workflow_data
 
     def process_arguments(self):
         """Process any command specific arguments"""

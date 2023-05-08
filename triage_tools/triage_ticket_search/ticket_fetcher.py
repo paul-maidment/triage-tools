@@ -6,11 +6,10 @@ from triage_tools import consts
 from .ticket_query import TicketQuery
 from .ticket_parser import TicketParser
 from .triage_ticket import TriageTicket
-from .grepper import Grepper
 
 class TicketFetcher:
     """Responsible for fetching tickets from Jira in response to queries"""
-    def __init__(self, jira_client:"jira", ticket_parser:"TicketParser"):
+    def __init__(self, ticket_parser:"TicketParser", jira_client:"jira"):
         """Constructor"""
         self.client = jira_client
         self.ticket_parser = ticket_parser
@@ -42,11 +41,10 @@ class TicketFetcher:
     def fetch_page_by_query(self, query:"TicketQuery", page_size, start_index) \
         -> list["TriageTicket"]:
         """Fetches a specific page of a query, given a pagesize and startindex"""
-        # tickets = []
-        query_text = query.build()
-
-        print(f"Query text: {query_text}")
-        issues = self.client.search_issues(query_text, maxResults=page_size, startAt=start_index)
+        tickets = []
+        issues = self.client.search_issues(query.build(), maxResults=page_size, startAt=start_index)
         for issue in issues:
-            self.ticket_parser.parse(issue)
-            time.sleep(5)
+            print(f"Issue ID: {issue.key}")
+            tickets += [self.ticket_parser.parse(issue)]
+            time.sleep(2)
+        return tickets

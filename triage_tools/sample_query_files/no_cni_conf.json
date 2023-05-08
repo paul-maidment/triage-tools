@@ -1,7 +1,7 @@
 {
     "query": {
         "function": "fetch_all_recent_tickets",
-        "days": 2
+        "days": 1
     },
     "jira_query_items": [
 

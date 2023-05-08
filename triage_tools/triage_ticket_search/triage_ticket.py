@@ -6,7 +6,5 @@ class TriageTicket:
     def __init__(self, issue):
         """Constructor"""
         self.key = issue.key
-        self.raw = issue.raw
+        self.issue = issue
         self.description = issue.fields.description
-        self.logs_url = None
-        self.log_files = []
